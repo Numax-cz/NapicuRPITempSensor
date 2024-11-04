@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
+import {CharTempsData} from "./char";
+import { CommonModule } from '@angular/common';
 
 const DEFAULT_CHAR_VIEW_DATA_FOR_DEV: CharTempsData = [
   {name: "Teplota", series: [
@@ -31,40 +33,29 @@ const DEFAULT_CHAR_VIEW_DATA_FOR_DEV: CharTempsData = [
     ]}
 ]
 
-
-
-
-export declare type CharTempsData = {name: string, series: {value: number, name: string}[] }[]
-//Definice výchozí barvy křivky znázorňující vnitřní teplotu
-export const CHAR_IN_TEMP_COLOR: string = "#00a8ff";
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgxChartsModule],
+  imports: [RouterOutlet, NgxChartsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-//Definice barev křivek pro graf
+  public static readonly CHAR_IN_TEMP_COLOR: string = "#00a8ff";
+  //Nastavení barev grafu
   public readonly char_color_schema: Color = {
     name: "color",
     selectable: false,
     group: ScaleType.Linear,
     domain: [
-      CHAR_IN_TEMP_COLOR,
+      AppComponent.CHAR_IN_TEMP_COLOR,
     ]
   };
 
-  //TODO DOC
-  public expanded = false;
-
-  public viewVBC: [number, number] = [800, 300];
-
+  public expanded: boolean = false;
 
   //Funkce, která vrátí data naměřených teplot, které se mají zobrazit v grafu
   public get_char_view_data(): CharTempsData | null {
-    return DEFAULT_CHAR_VIEW_DATA_FOR_DEV;
+    return [];
   }
-
 }
