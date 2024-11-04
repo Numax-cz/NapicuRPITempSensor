@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
 import {CharTempsData} from "./char";
 import { CommonModule } from '@angular/common';
+import {curveBasis, curveCatmullRom, CurveFactory} from "d3-shape";
 
 const DEFAULT_CHAR_VIEW_DATA_FOR_DEV: CharTempsData = [
   {name: "Teplota", series: [
@@ -41,14 +42,16 @@ const DEFAULT_CHAR_VIEW_DATA_FOR_DEV: CharTempsData = [
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  public static readonly CHAR_IN_TEMP_COLOR: string = "#00a8ff";
+  //Nastavení křivky
+  public curve_basis: CurveFactory = curveCatmullRom
+
   //Nastavení barev grafu
   public readonly char_color_schema: Color = {
     name: "color",
     selectable: false,
     group: ScaleType.Linear,
     domain: [
-      AppComponent.CHAR_IN_TEMP_COLOR,
+      "#00a8ff"
     ]
   };
 
@@ -56,6 +59,6 @@ export class AppComponent {
 
   //Funkce, která vrátí data naměřených teplot, které se mají zobrazit v grafu
   public get_char_view_data(): CharTempsData | null {
-    return [];
+    return DEFAULT_CHAR_VIEW_DATA_FOR_DEV;
   }
 }
