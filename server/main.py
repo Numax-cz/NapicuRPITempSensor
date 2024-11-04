@@ -50,7 +50,7 @@ def get_latest_temperature():
     row = cursor.fetchone()
     conn.close()
     
-    #
+#    
     if row:
         return jsonify({"temperature": row[1], "timestamp": row[2]})
     else:
