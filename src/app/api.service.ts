@@ -7,11 +7,11 @@ import {IApiData} from "./char";
   providedIn: 'root'
 })
 export class ApiDataService {
-  private readonly api_url: string = 'http://localhost:5000/api/temperature';
+  private readonly api_url: string = 'http://192.168.0.103:5000/api/temperature';
 
   constructor(private http: HttpClient) { }
 
-  public getData(): Observable<IApiData> {
-    return this.http.get<IApiData>(this.api_url);
+  public getData(): Observable<IApiData[]> {
+    return this.http.get<IApiData[]>(this.api_url);
   }
 }
