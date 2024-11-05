@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
-import {CharTempsData} from "./char";
+import {CharTempsData, IApiData} from "./char";
 import { CommonModule } from '@angular/common';
 import {curveBasis, curveCatmullRom, CurveFactory} from "d3-shape";
+import {ApiDataService} from "./api.service";
 
 const DEFAULT_CHAR_VIEW_DATA_FOR_DEV: CharTempsData = [
   {name: "Teplota", series: [
@@ -56,6 +57,12 @@ export class AppComponent {
   };
 
   public expanded: boolean = false;
+
+  constructor(private service: ApiDataService) {
+    service.getData().subscribe((value: IApiData) => {
+
+    });
+  }
 
   //Funkce, která vrátí data naměřených teplot, které se mají zobrazit v grafu
   public get_char_view_data(): CharTempsData | null {
