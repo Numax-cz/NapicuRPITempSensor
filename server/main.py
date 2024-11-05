@@ -1,12 +1,13 @@
 import sqlite3
 import time
 from flask import Flask, jsonify
+from flask_cors import CORS
 from threading import Thread
 from datetime import datetime
 import random
 
 app = Flask(__name__)
-
+CORS(app)
 # databaze check
 def initialize_database():
     conn = sqlite3.connect('temperature.db')
@@ -29,35 +30,41 @@ def save_temperature_to_db(temperature):
     conn.commit()
     conn.close()
 
-
 def sensor_reading():
     while True:
        
-        temperature = round(random.uniform(20,35), 2)
+        temperature = round(random.uniform(-15,3500), 2)
         
         
         save_temperature_to_db(temperature)
         print(f"Teplota {temperature} °C, je to tam v databázi more")
 
-    
-        time.sleep(1)
+
+    # time.sleep(0.01)
+
 
 @app.route('/api/temperature', methods=['GET'])
-def get_latest_temperature():
+def get_latest_temperatures():
     conn = sqlite3.connect('temperature.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM temperature_data ORDER BY timestamp DESC LIMIT 1")
-    row = cursor.fetchone()
+    
+    # Získání posledních 24 hodnot
+    cursor.execute("SELECT * FROM temperature_data ORDER BY timestamp DESC LIMIT 24")
+    rows = cursor.fetchall()
     conn.close()
     
-#    
-    if row:
-        return jsonify({"temperature": row[1], "timestamp": row[2]})
+    # Kontrola, zda byly nalezeny nějaké výsledky
+    if rows:
+        data = [{"value": row[1], "name": row[2]} for row in rows]
+        return jsonify(data)
     else:
         return jsonify({"error": "No data available"}), 404
+    
+
 
 
 def main():
+    
     
     initialize_database()
 
@@ -67,6 +74,7 @@ def main():
     ## API
     app.run(host='0.0.0.0', port=5000)
     save_temperature_to_db()
+
 
 # main smyčka
 
