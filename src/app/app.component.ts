@@ -29,16 +29,17 @@ const DEBUG_CHAR_DATA_HUM: ICharSeries[] = [
 export class AppComponent {
   //Nastavení křivky
   public curve_basis: CurveFactory = curveCatmullRom;
-
+  //Hodnoty teplot
   private char_data_temp: ICharSeries[] | null  = [];
-  private char_data_hum: ICharSeries[] | null  = [
-
-  ];
+  //Hodnoty vlhkostí
+  private char_data_hum: ICharSeries[] | null  = [];
 
   public expanded: boolean = false;
 
-  //Nastavení barev grafu
-  public readonly char_color_schema: Color = {
+  public api_error: boolean = false
+
+  //Nastavení barvy grafu teploty
+  public readonly char_color_schema_temp: Color = {
     name: "color",
     selectable: false,
     group: ScaleType.Linear,
@@ -47,6 +48,7 @@ export class AppComponent {
     ]
   };
 
+  //Nastavení barvy grafu vlhkosti
   public readonly char_color_schema_hum: Color = {
     name: "color",
     selectable: false,
@@ -57,19 +59,31 @@ export class AppComponent {
   };
 
   constructor(private service: ApiDataService) {
-    this.service.getData().subscribe((value: IApiData[]): void => {
-      this.char_data_temp = value.map((item: IApiData): ICharSeries => {
-        const timePart: string = item.cas.split(" ")[1];
-        const hoursAndMinutes: string = timePart.slice(0, 5);
-        return { value: item.teplota, name: timePart};
-      }) ?? null;
+    this.update_api_data();
+    setInterval(this.update_api_data, 60000);
+  }
 
-      this.char_data_hum = value.map((item: IApiData): ICharSeries => {
-        const timePart: string = item.cas.split(" ")[1];
-        const hoursAndMinutes: string = timePart.slice(0, 5);
-        return { value: item.vlhkost, name: timePart};
-      }) ?? null;
-    });
+  private update_api_data(): void {
+    this.service.getData().subscribe({
+      next: (value: IApiData[]): void => {
+        this.char_data_temp = value.map((item: IApiData): ICharSeries => {
+          const timePart: string = item.cas.split(" ")[1];
+          const hoursAndMinutes: string = timePart.slice(0, 5);
+          return { value: item.teplota, name: hoursAndMinutes};
+        }) ?? null;
+
+        this.char_data_hum = value.map((item: IApiData): ICharSeries => {
+          const timePart: string = item.cas.split(" ")[1];
+          const hoursAndMinutes: string = timePart.slice(0, 5);
+          return { value: item.vlhkost, name: hoursAndMinutes};
+        }) ?? null;
+
+        this.api_error = false;
+      },
+      error: (error: any): void => {
+        this.api_error = true;
+      }
+    })
   }
 
   public get_char_view_data_temp(): CharTempsData | null {

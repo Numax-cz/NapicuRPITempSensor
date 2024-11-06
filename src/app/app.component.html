@@ -12,7 +12,7 @@
             [view]="[((get_char_view_data_temp()?.[0]?.series?.length || 0)  > 15) && expanded ? ((get_char_view_data_temp()?.[0]?.series?.length || 0) / (container.offsetWidth / 80)) * (container.offsetWidth)  : container.offsetWidth , container.offsetHeight]"
             [results]="get_char_view_data_temp()"
             [xAxis]="true"
-            [scheme]="char_color_schema"
+            [scheme]="char_color_schema_temp"
             [yAxis]="true"
             [gradient]="false"
             [tooltipDisabled]="false"
