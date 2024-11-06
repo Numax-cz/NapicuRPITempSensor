@@ -6,7 +6,8 @@
   <br>
 </h1>
 
-- NapicuRPITempSensor je open-source vzdělávací projekt, který se zaměřuje na měření teploty a vlhkosti. Naměřená data jsou vizualizována ve formě grafu na webové stránce. 
+- NapicuRPITempSensor je open-source vzdělávací projekt, který se zaměřuje na měření teploty a vlhkosti. 
+- Naměřená data jsou vizualizována ve formě grafu na webové stránce. 
 - Projekt byl vytvořen s cílem podpořit vzdělávání a praktické učení v oblasti technologií.
 ---
 
