@@ -1,6 +1,13 @@
 export declare type IApiData = {
-  value: string,
-  name: string
+  teplota: string,
+  cas: string,
+  vlhkost: string
 }
-export declare type CharTempsData = {name: string, series: IApiData[] }[]
+
+export declare type ICharSeries = {
+  name: string,
+  value: string
+}
+
+export declare type CharTempsData = {name: string, series: ICharSeries[] }[]
 
