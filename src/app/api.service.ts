@@ -7,7 +7,7 @@ import {IApiData} from "./char";
   providedIn: 'root'
 })
 export class ApiDataService {
-  private readonly api_url: string = 'http://192.168.0.104:5000/api/temperature';
+  private readonly api_url: string = `http://${window.location.hostname}:5000/api/temperature`;
 
   constructor(private http: HttpClient) { }
 
