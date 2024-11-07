@@ -8,7 +8,9 @@
             #container>
         <ng-container *ngIf="get_char_view_data_temp()?.length && !api_error">
           <ngx-charts-line-chart
-            [autoScale]="true"
+            [autoScale]="false"
+            [yScaleMin]="15"
+            [yScaleMax]="30"
             [view]="[((get_char_view_data_temp()?.[0]?.series?.length || 0)  > 15) && expanded ? ((get_char_view_data_temp()?.[0]?.series?.length || 0) / (container.offsetWidth / 80)) * (container.offsetWidth)  : container.offsetWidth , container.offsetHeight]"
             [results]="get_char_view_data_temp()"
             [xAxis]="true"
@@ -37,10 +39,12 @@
            #container>
         <ng-container *ngIf="get_char_view_data_hum()?.length && !api_error">
           <ngx-charts-line-chart
-            [autoScale]="true"
+            [autoScale]="false"
             [view]="[((get_char_view_data_hum()?.[0]?.series?.length || 0)  > 15) && expanded ? ((get_char_view_data_hum()?.[0]?.series?.length || 0) / (container.offsetWidth / 80)) * (container.offsetWidth)  : container.offsetWidth , container.offsetHeight]"
             [results]="get_char_view_data_hum()"
             [xAxis]="true"
+            [yScaleMin]="20"
+            [yScaleMax]="100"
             [scheme]="char_color_schema_hum"
             [yAxis]="true"
             [gradient]="false"

@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
 import {CharTempsData, IApiData, ICharSeries} from "./char";
 import { CommonModule } from '@angular/common';
-import {curveCatmullRom, CurveFactory} from "d3-shape";
+import {curveBasis, curveCatmullRom, CurveFactory, curveLinear} from "d3-shape";
 import {ApiDataService} from "./api.service";
 
 
@@ -60,7 +60,7 @@ export class AppComponent {
 
   constructor(private service: ApiDataService) {
     this.update_api_data();
-    setInterval(this.update_api_data, 60000);
+    setInterval(this.update_api_data, 30000);
   }
 
   private update_api_data(): void {
