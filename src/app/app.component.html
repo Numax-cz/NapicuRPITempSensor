@@ -6,13 +6,15 @@
       </div>
       <div class="is-relative mb-3 mt-3" style="max-width: 100%; overflow-x: auto; max-height: 400px; height: 400px"
             #container>
-        <ng-container *ngIf="get_char_view_data_temp()?.length">
+        <ng-container *ngIf="get_char_view_data_temp()?.length && !api_error">
           <ngx-charts-line-chart
-            [autoScale]="true"
+            [autoScale]="false"
+            [yScaleMin]="15"
+            [yScaleMax]="30"
             [view]="[((get_char_view_data_temp()?.[0]?.series?.length || 0)  > 15) && expanded ? ((get_char_view_data_temp()?.[0]?.series?.length || 0) / (container.offsetWidth / 80)) * (container.offsetWidth)  : container.offsetWidth , container.offsetHeight]"
             [results]="get_char_view_data_temp()"
             [xAxis]="true"
-            [scheme]="char_color_schema"
+            [scheme]="char_color_schema_temp"
             [yAxis]="true"
             [gradient]="false"
             [tooltipDisabled]="false"
@@ -20,8 +22,9 @@
             [curve]="curve_basis"
           ></ngx-charts-line-chart>
         </ng-container>
-        <ng-container *ngIf="!get_char_view_data_temp()?.length">
-          <div class="is-size-5 has-text-centered" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0.7">Žádná data</div>
+        <ng-container *ngIf="!get_char_view_data_temp()?.length || api_error">
+          <div class="is-size-5 has-text-centered is-unselectable" style="position: absolute; left: 50%; top: 50%; transform:
+          translate(-50%, -50%); opacity: 0.7">{{api_error ? 'Chyba API' : 'Žádná data'}}</div>
         </ng-container>
       </div>
     </div>
@@ -34,12 +37,14 @@
       </div>
       <div class="is-relative mb-3 mt-3" style="max-width: 100%; overflow-x: auto; max-height: 400px; height: 400px"
            #container>
-        <ng-container *ngIf="get_char_view_data_hum()?.length">
+        <ng-container *ngIf="get_char_view_data_hum()?.length && !api_error">
           <ngx-charts-line-chart
-            [autoScale]="true"
+            [autoScale]="false"
             [view]="[((get_char_view_data_hum()?.[0]?.series?.length || 0)  > 15) && expanded ? ((get_char_view_data_hum()?.[0]?.series?.length || 0) / (container.offsetWidth / 80)) * (container.offsetWidth)  : container.offsetWidth , container.offsetHeight]"
             [results]="get_char_view_data_hum()"
             [xAxis]="true"
+            [yScaleMin]="20"
+            [yScaleMax]="100"
             [scheme]="char_color_schema_hum"
             [yAxis]="true"
             [gradient]="false"
@@ -48,8 +53,9 @@
             [curve]="curve_basis"
           ></ngx-charts-line-chart>
         </ng-container>
-        <ng-container *ngIf="!get_char_view_data_hum()?.length">
-          <div class="is-size-5 has-text-centered" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0.7">Žádná data</div>
+        <ng-container *ngIf="!get_char_view_data_hum()?.length || api_error">
+          <div class="is-size-5 has-text-centered is-unselectable" style="position: absolute; left: 50%; top: 50%; transform:
+          translate(-50%, -50%); opacity: 0.7">{{api_error ? 'Chyba API' : 'Žádná data'}}</div>
         </ng-container>
       </div>
     </div>
