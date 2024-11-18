@@ -57,7 +57,7 @@ def get_latest_temperatures():
     cursor = conn.cursor()
     
     # Získání posledních 24 hodnot
-    cursor.execute(SELECT * FROM temperature_data ORDER BY timestamp DESC LIMIT 24;)
+    cursor.execute("SELECT * FROM temperature_data ORDER BY timestamp DESC LIMIT 24")
     rows = cursor.fetchall()
     conn.close()
     
